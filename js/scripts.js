@@ -1,23 +1,29 @@
 $(document).ready(function(){
     $('#search').on('keyup', function(e){
+        //Get the current value of the user name
         let userName = e.target.value;
 
+        // Ajax call
         $.ajax({
+            //Ajax call for the user profile
             url: 'https://api.github.com/users/' + userName,
             data: {
+                //For Auth
                 client_id: '3a10dc51cb7ab5baa613',
                 client_secret: 'aef47fd0998e88aeee43e8431e05577146c57659'
             }
         }).done(function(user){
             $.ajax({
+                //Ajax call for the repos
                 url: 'https://api.github.com/users/' + userName + '/repos',
                 data: {
                     client_id: '3a10dc51cb7ab5baa613',
                     client_secret: 'aef47fd0998e88aeee43e8431e05577146c57659',
-                    sort: 'created: asc',
-                    per_page: 5
+                    sort: 'created: asc', //To sort the represented data
+                    per_page: 5 //To maximize the number of the received repos
                 }
             }).done(function(repos){
+                //Loop over the repos
                 $.each(repos, function(index, repo){
                     $('#repos').append(`
                         <div class="well">
